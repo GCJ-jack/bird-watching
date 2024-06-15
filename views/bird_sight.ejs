@@ -1,0 +1,125 @@
+<!DOCTYPE html>
+<html lang ="en">
+<head>
+    <%- include('../views/layouts/head'); %>
+</head>
+<header>
+    <%- include('../views/layouts/navbar'); %>
+    <script src="/socket.io/socket.io.js"></script>
+
+</header>
+<body>
+
+    <div class="container">
+        <div class="row mt-3 shadow p-4">
+            <div class="col-12 col-lg-4">
+                <img class="rounded-2 w-100" src="<%=bird_sight.photo%>"/>
+            </div>
+            <div class="col-12 col-lg-8">
+               <h4 class="alert alert-info">
+                   Bird Sight
+                   <% if (bird_sight.identification) {%>
+                       <button class="btn btn-primary">Identified</button>
+                   <%}%>
+                   <% if (!bird_sight.identification) {%>
+                     <a href="/identify_bird_sight/<%=bird_sight._id%>"  class="btn btn-info text-center">Identify</a>
+                   <%}%>
+
+               </h4>
+               <% if (bird_sight.identification) {%>
+                    <h6>
+                        <i class="bi bi-person-circle me-2" style="font-size: 30px"></i>
+                        <%=bird_sight.author%>
+                    </h6>
+               <%}%>
+               <h6>
+                   <i class="bi bi-clock"></i>
+                   <%= new Date(bird_sight.datetime).toLocaleString()%>
+               </h6>
+               <div class="mt-3">
+                   <h5>Description</h5>
+                   <p>
+                       <%=bird_sight.description%>
+                   </p>
+               </div>
+
+                <% if (bird_sight.identification) { %>
+                <div class="mt-3">
+                    <h4>Bird DBPedia</h4>
+                    <table class="table table-bordered">
+                        <thead>
+                        <tr>
+                            <th>Scientific Name</th>
+                            <th>Description</th>
+                            <th>URI</th>
+                        </tr>
+                        </thead>
+                        <tbody>
+                        <tr>
+                            <td>
+                                <%=bird_sight.scientificName%>
+                            </td>
+                            <td>
+                                <%=bird_sight.DBPediaDescription%>
+                            </td>
+                            <td>
+                                <a TARGET="_blank" href="<%=bird_sight.DBPediaURL%>">
+                                    DB Pedia URL
+                                </a>
+                            </td>
+                        </tr>
+                        </tbody>
+                    </table>
+                </div>
+                <%}%>
+            </div>
+
+            <div class="col-12 mt-3">
+                <div>
+                    <h4 class="alert alert-success">Location</h4>
+                    <iframe
+                            width="100%"
+                            height="350"
+                            style="border:0"
+                            loading="lazy"
+                            allowfullscreen
+                            referrerpolicy="no-referrer-when-downgrade"
+                            src="https://www.google.com/maps/embed/v1/place?key=AIzaSyCfsW0lbsoZUW7xQx7aCuPkG2T-hPakf-k
+    &q=<%=bird_sight.geolocation.latitude%>,<%=bird_sight.geolocation.longitude%>">
+                    </iframe>
+                </div>
+            </div>
+
+            <div class="col-12 mt-4">
+                <h4 class="alert alert-warning">Chat</h4>
+                <div class="mt-2 row mb-2">
+                    <div class="col-12 col-lg-3 mt-2">
+                        <input class="form-control" placeholder="Your name" id="sender"/>
+                    </div>
+                    <div class="col-12 col-lg-7 mt-2">
+                        <input
+                                id="message"
+                                placeholder="Enter friendly message here..." class="form-control rounded-0"/>
+                    </div>
+
+                    <div class="col-12 col-lg-2 mt-2">
+                        <button
+                                id="message-send"
+                                class="btn btn-primary rounded-0">
+                            Send
+                        </button>
+                    </div>
+                </div>
+                <ul id="messages" class="list-group">
+
+                </ul>
+            </div>
+        </div>
+
+
+    </div>
+    <script src="/javascripts/bird_sight.js"></script>
+    <script src="/javascripts/index_db.js"></script>
+
+</body>
+</html>

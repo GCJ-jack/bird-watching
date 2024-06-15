@@ -1,0 +1,16 @@
+body {
+  font: 14px "Lucida Grande", Helvetica, Arial, sans-serif;
+}
+
+a {
+  color: #00B7FF;
+}
+
+.main {
+  height: 80vh;
+}
+
+.photo-list {
+  max-height: 78vh;
+  overflow: auto;
+}
